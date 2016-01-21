@@ -1,0 +1,16 @@
+body {
+  margin: 0px 50px;
+}
+
+div>h1 {
+  font-size: 1.5em;
+}
+
+i {
+  padding-right: 5px;
+  padding-left: 10px;
+}
+
+.panelspec {
+  padding-right: 10px;
+}
