@@ -21,8 +21,17 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">New Post <span class="sr-only">(current)</span></a></li>
+            <li ng-init="newpost=false" ng-model="newpost" ng-click="newpost=!newpost"><a href="#">New Post <span class="sr-only">(current)</span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort (upvotes) <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Upvotes</a></li>
+                <li><a href="#">Date</a></li>
+                <li><a href="#">Title</a></li>
+              </ul>
+            </li>
           </ul>
+
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
               <input type="text" class="form-control" placeholder="Search">
@@ -32,8 +41,8 @@
         </div>
       </div>
     </nav>
-    <div ng-controller="redditController">
-      <div ng-repeat="post in posts" class="panel panel-default panelspec">
+    <div ng-show="newpost==false" ng-controller="redditController">
+      <div ng-repeat="post in posts | orderBy: -post.upvotes " class="panel panel-default panelspec">
         <div class="panel-body">
           <div class="row">
             <div class="col-sm-3">
@@ -42,8 +51,8 @@
             <div class="col-sm-9">
               <div class="row">
                 <h1 class="pull-left">{{post.title}} | </h1>
-                <h1 class="pull-left"><i class="fa fa-arrow-up pull-left"></i></h1>
-                <h1 class="pull-left"><i class="fa fa-arrow-down pull-left"></i></h1>
+                <h1 class="pull-left"><i ng-click="post.upvotes = post.upvotes + 1" class="fa fa-arrow-up pull-left"></i></h1>
+                <h1 class="pull-left"><i ng-click="post.upvotes = post.upvotes - 1"class="fa fa-arrow-down pull-left"></i></h1>
                 <h1 class="pull-left">| {{post.upvotes}}</h1>
               </div>
               <div class="row">
@@ -54,19 +63,50 @@
               </div>
               <div class="row">
                 <p class="pull-left"><i class="fa fa-calendar "></i></p>
-                <p class="pull-left panelspec">{{post.date}}</p>
+                <p class="pull-left panelspec">{{post.date | amCalendar}}</p>
                 <p class="pull-left"><i class="fa fa-comments "> </i> {{post.comments.length}} Comments </p>
                 <p class="pull-left"><i class="fa fa-pencil "> </i>Add Comment </p>
-
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular.min.js"></script>
+    <div ng-show="newpost==true" class="panel panel-default">
+      <div class="panel-head">
+        <h1 class="text-center">Add New Post</h1>
+      </div>
+      <div class="panel-body">
+        <form class="" name="postform" action="#">
+          <div class='form-group'>
+            <label for="title">Title </label>
+            <input class="form-control" type="text" id="title" required>
+          </div>
+          <div class='form-group'>
+            <label for="author">Author </label>
+            <input class="form-control" type="text" id="author" required>
+          </div>
+          <div class='form-group' >
+            <label for="image_url">Image URL </label>
+            <input class="form-control" type="url" id="image_url" required>
+          </div>
+          <div class='form-group' >
+            <label for="description">Description </label>
+            <input class="form-control" type="text" id="description" required>
+          </div>
+          <div class='form-group' >
+            <input type="submit" value="Submit New Post">
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.0/ui-bootstrap.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/2.11.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.3/angular-moment.min.js"></script>
     <script type="text/javascript" src="index.js"></script>
+
   </body>
 </html>
