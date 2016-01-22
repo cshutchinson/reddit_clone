@@ -1,7 +1,7 @@
 var app = angular.module('app', ['angularMoment']);
 // image title upvotes, descirption date comments author
 var posts = [{
-  id: 10,
+  id: 0,
   date: new Date('01/20/2016'),
   author: 'Christopher Hutchinson',
   title: 'Panoramic Photo Gone Wrong',
@@ -24,5 +24,33 @@ var posts = [{
 
 app.controller("redditController", function($scope){
   $scope.posts = posts;
-  // $scope.newpost = false;
+})
+
+app.controller("postController", function($scope,$rootScope){
+  $scope.newPost={
+    id: 1,
+    date: new Date(),
+    author: '',
+    title: '',
+    description: '',
+    upvotes: 0,
+    image_url: '',
+    comments: []
+  };
+  $scope.addPost = function(){
+    $scope.newPost.id = new Date();
+    console.log(posts.length, $scope.newPost);
+    posts.push($scope.newPost);
+    $scope.newPost={
+      id: 1,
+      date: new Date(),
+      author: '',
+      title: '',
+      description: '',
+      upvotes: 0,
+      image_url: '',
+      comments: []
+    };
+    $rootScope.newpost = false;
+  }
 })

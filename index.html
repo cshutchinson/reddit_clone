@@ -42,7 +42,7 @@
       </div>
     </nav>
     <div ng-show="newpost==false" ng-controller="redditController">
-      <div ng-repeat="post in posts | orderBy: -post.upvotes " class="panel panel-default panelspec">
+      <div ng-repeat="post in posts | orderBy: '-upvotes' track by $index" class="panel panel-default panelspec">
         <div class="panel-body">
           <div class="row">
             <div class="col-sm-3">
@@ -72,38 +72,64 @@
         </div>
       </div>
     </div>
-    <div ng-show="newpost==true" class="panel panel-default">
+    <div ng-show="newpost==true" ng-controller="postController" class="panel panel-default">
       <div class="panel-head">
         <h1 class="text-center">Add New Post</h1>
       </div>
       <div class="panel-body">
-        <form class="" name="postform" action="#">
+        <form name="postform">
           <div class='form-group'>
             <label for="title">Title </label>
-            <input class="form-control" type="text" id="title" required>
+            <input ng-model="newPost.title" ng-minlength=3 required name="title" class="form-control" type="text" id="title" required>
+            <div class="error"
+              ng-show="postform.$dirty && postform.title.$invalid">
+              <small class="error"
+                ng-show="postform.title.$error.minlength">
+                A title name is required to be at least 3 characters
+              </small>
+            </div>
           </div>
           <div class='form-group'>
             <label for="author">Author </label>
-            <input class="form-control" type="text" id="author" required>
+            <input ng-model="newPost.author" ng-minlength=3 required name="author" class="form-control" type="text" id="author" required>
+            <div class="error"
+              ng-show="postform.$dirty && postform.author.$invalid">
+              <small class="error"
+                ng-show="postform.author.$error.minlength">
+                An author name is required to be at least 3 characters
+              </small>
+            </div>
           </div>
           <div class='form-group' >
             <label for="image_url">Image URL </label>
-            <input class="form-control" type="url" id="image_url" required>
+            <input ng-model="newPost.image_url" required name="image_url" class="form-control" type="url" id="image_url" required>
+            <div class="error"
+              ng-show="postform.$dirty && postform.image_url.$invalid">
+              <small class="error"
+                ng-show="postform.$error">
+                A valid image URL is required.
+              </small>
+            </div>
           </div>
           <div class='form-group' >
-            <label for="description">Description </label>
-            <input class="form-control" type="text" id="description" required>
+            <label for="description">Description</label>
+            <input ng-model="newPost.description" ng-minlength=3 required name="description" class="form-control" type="text" id="description" required>
+            <div class="error"
+              ng-show="postform.$dirty && postform.description.$invalid">
+              <small class="error"
+                ng-show="postform.description.$error.minlength">
+                A description is required to be at least 3 characters
+              </small>
+            </div>
           </div>
           <div class='form-group' >
-            <input type="submit" value="Submit New Post">
+            <button class="btn btn-default btn-primary" ng-disabled="postform.$invalid" ng-click="addPost()">Submit New Post</button>
           </div>
         </form>
       </div>
     </div>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.0/ui-bootstrap.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/2.11.1/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.3/angular-moment.min.js"></script>
     <script type="text/javascript" src="index.js"></script>
