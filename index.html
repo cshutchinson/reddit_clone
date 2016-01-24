@@ -19,7 +19,7 @@
           </button>
           <a class="navbar-brand" href="#">Reddit Clone</a>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li ng-init="newpost=false" ng-model="newpost" ng-click="newpost=!newpost"><a href="#">New Post <span class="sr-only">(current)</span></a></li>
             <li class="dropdown">
@@ -41,7 +41,7 @@
         </div>
       </div>
     </nav>
-    <div ng-show="newpost==false" ng-controller="redditController">
+    <div ng-show="newpost==false" ng-controller="postController">
       <div ng-repeat="post in posts | orderBy: '-upvotes' track by $index" class="panel panel-default panelspec">
         <div class="panel-body">
           <div class="row">
@@ -64,8 +64,49 @@
               <div class="row">
                 <p class="pull-left"><i class="fa fa-calendar "></i></p>
                 <p class="pull-left panelspec">{{post.date | amCalendar}}</p>
-                <p class="pull-left"><i class="fa fa-comments "> </i> {{post.comments.length}} Comments </p>
-                <p class="pull-left"><i class="fa fa-pencil "> </i>Add Comment </p>
+                <p class="pull-left text-primary cursor" ng-click="showComments=!showComments"><i class="fa fa-comments "> </i> {{post.comments.length}} Comments </p>
+                <p class="pull-left cursor" ng-init='nc=false'ng-click="nc=!nc"><i class="fa fa-pencil "> </i>Add Comment</p>
+              </div>
+              <hr>
+              <div ng-repeat="comment in post.comments">
+                <p ng-show="showComments" class="row">
+                  {{comment.date | amCalendar}} - {{comment.comment}}, {{comment.author}}
+                </p>
+              </div>
+              <div ng-show="nc==true"  class="panel panel-default">
+                <div class="panel-head">
+                  <h1 class="text-center">Add New Comment</h1>
+                </div>
+                <div class="panel-body">
+                  <form name="commentform">
+                    <div class='form-group'>
+                      <label for="author">Author </label>
+                      <input ng-model="newComment.author" ng-minlength=3 required name="author" class="form-control" type="text" id="author">
+                      <div class="error"
+                        ng-show="commentform.$dirty && commentform.author.$invalid">
+                        <small class="error"
+                          ng-show="commentform.author.$error.minlength">
+                          An author name is required to be at least 3 characters
+                        </small>
+                      </div>
+                    </div>
+                    <div class='form-group'>
+                      <label for="commment">Comment </label>
+                      <input ng-model="newComment.comment" ng-minlength=3 required name="comment" class="form-control" type="text" id="comment" required>
+                      <div class="error"
+                        ng-show="commentform.$dirty && commentform.comment.$invalid">
+                        <small class="error"
+                          ng-show="commentform.author.$error.minlength">
+                          A comment is required to be at least 3 characters
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class='form-group' >
+                      <button class="btn btn-default btn-primary" ng-disabled="commentform.$invalid" ng-click="addComment(post.id)">Submit New Comment</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -128,6 +169,7 @@
         </form>
       </div>
     </div>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.0/ui-bootstrap.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/2.11.1/moment.min.js"></script>

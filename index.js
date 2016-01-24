@@ -11,22 +11,23 @@ var posts = [{
   comments: [
     {
       id: 1,
+      date: new Date(),
       comment: "Test Comment",
       author: 'test author'
     },
     {
       id: 2,
+      date: new Date(),
       comment: "Test Comment 2",
       author: 'testing author'
     }
   ]
 }];
 
-app.controller("redditController", function($scope){
-  $scope.posts = posts;
-})
 
 app.controller("postController", function($scope,$rootScope){
+  $scope.posts = posts;
+  // $scope.nc = false;
   $scope.newPost={
     id: 1,
     date: new Date(),
@@ -37,9 +38,14 @@ app.controller("postController", function($scope,$rootScope){
     image_url: '',
     comments: []
   };
+  $scope.newComment={
+    date: new Date(),
+    author: '',
+    comment: ''
+  }
+
   $scope.addPost = function(){
     $scope.newPost.id = new Date();
-    console.log(posts.length, $scope.newPost);
     posts.push($scope.newPost);
     $scope.newPost={
       id: 1,
@@ -52,5 +58,19 @@ app.controller("postController", function($scope,$rootScope){
       comments: []
     };
     $rootScope.newpost = false;
+  };
+  $scope.addComment = function(post){
+    $scope.newComment.date = new Date();
+    posts.findIndex(function(elem,index){
+      if (elem.id === post){
+        posts[index].comments.push($scope.newComment);
+      }
+    });
+    $scope.newComment={
+      date: new Date(),
+      author: '',
+      comment: ''
+    };
+    this.nc = false;
   }
 })
