@@ -64,9 +64,16 @@
               <div class="row">
                 <p class="pull-left"><i class="fa fa-calendar "></i></p>
                 <p class="pull-left panelspec">{{post.date | amCalendar}}</p>
-                <p class="pull-left text-primary cursor" ng-click="showComments=!showComments"><i class="fa fa-comments "> </i> {{post.comments.length}} Comments </p>
-                <p class="pull-left cursor" ng-init='nc=false'ng-click="nc=!nc"><i class="fa fa-pencil "> </i>Add Comment</p>
+                <p class="pull-left text-primary cursor" ng-click="showComments=!showComments"><i class="fa fa-comments "> </i>
+                    <ng-pluralize count="post.comments.length"
+                     when="{'0': 'No comments yet',
+                         'one': '1 comment',
+                         'other': '{} comments'}">
+                    </ng-pluralize>
+                </p>
+                <p class="pull-left text-primary cursor" ng-init='nc=false'ng-click="nc=!nc"><i class="fa fa-pencil "> </i>Add Comment</p>
               </div>
+
               <hr>
               <div ng-repeat="comment in post.comments">
                 <p ng-show="showComments" class="row">
