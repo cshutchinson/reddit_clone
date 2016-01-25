@@ -1,4 +1,4 @@
-var app = angular.module('app', ['angularMoment']);
+var app = angular.module('app', ['angularMoment', 'ngAnimate']);
 // image title upvotes, descirption date comments author
 var posts = [{
   id: 0,
@@ -58,6 +58,7 @@ app.controller("postController", function($scope,$rootScope){
       comments: []
     };
     $rootScope.newpost = false;
+    this.on = !this.on;
   };
   $scope.addComment = function(post){
     $scope.newComment.date = new Date();

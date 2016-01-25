@@ -23,7 +23,7 @@
           <ul class="nav navbar-nav">
             <li ng-init="newpost=false" ng-model="newpost" ng-click="newpost=!newpost"><a href="#">New Post <span class="sr-only">(current)</span></a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort ({{sort}}) <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort {{sort}} <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a ng-click="sort='-upvotes'">Upvotes</a></li>
                 <li><a ng-click="sort='-date'">Date</a></li>
@@ -40,8 +40,8 @@
         </div>
       </div>
     </nav>
-    <div ng-show="newpost==false" ng-controller="postController">
-      <div ng-repeat="post in posts | orderBy: sort | filter:searchText track by $index" class="panel panel-default panelspec">
+    <div ng-init="on=true" ng-show="newpost==false" ng-controller="postController">
+      <div class="my-special-animation" ng-if="on" ng-repeat="post in posts | orderBy: sort | filter:searchText track by $index" class="panel panel-default panelspec">
         <div class="panel-body">
           <div class="row">
             <div class="col-sm-3">
@@ -177,6 +177,7 @@
     </div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-animate.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.0/ui-bootstrap.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
